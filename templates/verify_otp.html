@@ -1,0 +1,7 @@
+<h2>Verify OTP</h2>
+<p>We sent an OTP to your email: {{ email }}</p>
+<form action="/verify_otp" method="POST">
+  <label for="otp">Enter OTP</label>
+  <input type="text" name="otp" required>
+  <button type="submit">Verify</button>
+</form>

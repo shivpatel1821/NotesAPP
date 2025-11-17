@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Notes App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts + Material Icons -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f8f9fc;
+;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    nav {
+      background: #ffffff;
+      padding: 14px 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #135bec;
+    }
+    nav .nav-buttons button {
+      padding: 8px 16px;
+      background: #135bec;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    nav .nav-buttons button:hover {
+      background: #0f4acc;
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Page Content */
+    .page-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    /* Registration Card */
+    .register-container {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0px 6px 20px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
+    }
+    .register-container:hover {
+      transform: translateY(-4px);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 900;
+      color: #111827;
+      font-size: 26px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    h2 .material-symbols-outlined {
+      margin-right: 8px;
+      color: #135bec;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 6px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 20px;
+      margin-bottom: 18px;
+      border: 1px solid #d1d5db;
+      border-radius: 9999px; /* fully rounded */
+      outline: none;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+    input:focus {
+      border-color: #4f46e5;
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.2);
+    }
+
+    /* OTP Section */
+    .otp-section {
+      display: none;
+      margin-top: -8px;
+      margin-bottom: 15px;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Submit Button */
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      background: #4f46e5;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+      border-radius: 9999px; /* fully rounded */
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button[type="submit"]:hover {
+      background: #3730a3;
+      transform: scale(1.02);
+    }
+
+    /* Link */
+    .link {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .link a {
+      text-decoration: none;
+      color: #4f46e5;
+      font-weight: 600;
+    }
+    .link a:hover { text-decoration: underline; }
+
+    /* Flash Messages */
+    .flash-message {
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .flash-message.success { background: #d4edda; color: #155724; }
+    .flash-message.info { background: #d1ecf1; color: #0c5460; }
+    .flash-message.warning { background: #fff3cd; color: #856404; }
+    .flash-message.danger { background: #f8d7da; color: #721c24; }
+
+    /* Footer */
+    footer {
+      background: #ffffff;
+      padding: 14px 0;
+      text-align: center;
+      color: #6b7280;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+    }
+
+    @media (max-width: 480px) {
+      .register-container { padding: 20px; border-radius: 12px; }
+      h2 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Notes App</div>
+    <div class="nav-buttons">
+      <a href="{{ url_for('home_page') }}">
+        <button type="button">Home</button>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="page-content">
+    <div class="register-container">
+      <h2><span class="material-symbols-outlined">person_add</span>Create Account</h2>
+
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div>
+            {% for category, message in messages %}
+              <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <!-- Step 1: Register & Send OTP -->
+      <form action="/register_user" method="POST" id="register-form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" value="{{ username or '' }}" required>
+
+        <label for="email">Email</label>
+        <div class="input-group">
+          <input type="email" id="email" name="email" placeholder="Enter your email" value="{{ email or '' }}" required>
+        </div>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" value="{{ password or '' }}" required>
+
+        <button type="submit" id="send-otp-btn">Register & Send OTP</button>
+      </form>
+
+      <!-- Step 2: Verify OTP -->
+      {% if otp_sent %}
+      <form action="/verify_otp" method="POST" id="otp-form">
+        <div id="otp-section" class="otp-section" style="display:block;">
+          <label for="otp">Enter OTP</label>
+          <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+          <button type="submit" id="verify-btn" style="margin-top:10px; background:#28a745; border-radius:9999px;">
+            Verify OTP
+          </button>
+        </div>
+      </form>
+      {% endif %}
+
+      <div class="link">
+        <p>Already have an account? <a href="/login">Login</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © {{ current_year }} Notes App. All rights reserved.
+  </footer>
+
+</body>
+</html>
